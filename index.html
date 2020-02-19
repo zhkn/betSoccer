@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <h1>CTO</h1>
+
+        <h2 id="info"></h2>
+        <button id="GetButton">get amount of money</button>
+
+        <label for="TeamA" class="col-lg-2 control-label">teamA</label>
+        <input id="TeamA" type="text">
+
+        <label for="TeamB" class="col-lg-2 control-label">TeamB</label>
+        <input id="TeamB" type="text">
+
+        <label for="Point" class="col-lg-2 control-label">Point</label>
+        <input id="Point" type="text">
+
+        <button id="SetButton">Set Game</button>
+
+        <label for="scoreA" class="col-lg-2 control-label">Score A</label>
+        <input id="scoreA" type="text">
+
+        <label for="socreB" class="col-lg-2 control-label">Score B</label>
+        <input id="scoreB" type="text">
+
+        <button id="OpenGame">OpenGame</button>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+       if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        }
+        
+        web3.eth.getAccounts().then(function(value){
+            web3.eth.defaultAccount = value[0];
+        });
+
+        var betSoccerContract = new web3.eth.Contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_chooseA",
+				"type": "uint256"
+			}
+		],
+		"name": "bet",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "getAirdropStatue",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "getAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "getGameInfo",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "_scoreA",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "_scoreB",
+				"type": "int256"
+			}
+		],
+		"name": "openGame",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_teamA",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_teamB",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_point",
+				"type": "uint16"
+			}
+		],
+		"name": "setGame",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_cto",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "airdrop_address",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "airdrop_amount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "airdrop_statue",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "can_reset",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "game",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "teamA",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "teamB",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "point",
+				"type": "uint16"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "game_statue",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+], '0x9D2cAc05283Be66fa0c062139eB551b4f5648de2');
+        
+        $("#GetButton").click(function () {
+            betSoccerContract.methods.getAmount().call()
+            .then(function(data){
+                $("#info").html('Amount of Money for A : ' + data[0]/1000000000000000000 + '</br>' + 'Amount of Money for B : ' + data[1]/1000000000000000000);
+            })
+        });
+
+        $("#SetButton").click(function() {
+            betSoccerContract.methods.setGame($("#TeamA").val(), $("#TeamB").val(), parseInt($("#Point").val()))
+            .send({from:web3.eth.defaultAccount, gas:3000000})
+            .then(function(result){
+                console.log(result);
+            });
+        });
+
+
+        $("#OpenGame").click(function(){
+            var scoreA = parseInt($("#scoreA").val());
+            var scoreB = parseInt($("#scoreB").val());
+            betSoccerContract.methods.openGame(scoreA, scoreB).send({from:web3.eth.defaultAccount, gas:300000})
+            .then(alert);
+			betSoccerContract.methods.getAirdropStatue().call()
+			.then(function(data){
+				if(data[0] == 1){//airdrop_statue == 1
+					alert("address:" + data[2] + " received " + data[1]/1000000000000000000 + " ether!");
+					// console.log("address:" + data[2] + " received " + data[1]/1000000000000000000 + " ether!")
+				}else{
+					alert("no airdrop!");
+
+				}
+			})
+        })
+
+    </script>
+
+</body>
+</html>
